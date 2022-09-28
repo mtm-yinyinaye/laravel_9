@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\TestModel;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Blade;
+use App\Rules\ExistsID;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TestController extends Controller
 {
     public function index()
     {
-        // $test = TestModel::get();
-        // $test = DB::table('tests')->whereFullText('description', 'Sample')->get();
-        // return $test;
-
         $test = TestModel::whereFullText('description', 'Sample')->paginate(1);
         $selected = [
            ["id" => 1, "name" => "Yangon", "selected" => false],
@@ -22,28 +21,105 @@ class TestController extends Controller
            ["id" => 4, "name" => "Bago", "selected" => false],
            ["id" => 5, "name" => "Taunggi", "selected" => false],
         ];
-        // info($test);
-        // return Blade::render(
-        //     '
-        //     <h1>List</h1>
-        //     <div>
-        //     @foreach ($test as $t)
-        //         <p>{{ $t->name }}</p>
-        //     @endforeach
-        //     </div>
-        //     ', ['test' => $test]
-        // );
         return view('posts.index', ['posts' => $test, 'selectes' => $selected]);
 
     }
 
     public function create()
     {
-        $product = new TestModel();
-        $product->name = "Sample Product 2";
-        $product->amount = 12;
-        $product->description = "Sample Fulltext Method";
-        $product->active = 1;
-        $product->save();
+        return view('posts.create');
+    }
+
+    public function store(Request $request)
+    {
+
+        // info($request);
+
+
+        $request->validate([
+            'name' => 'required',
+            'amount' => 'required',
+            'description' => 'required'
+        ]);
+
+        TestModel::create([
+            "name" => $request->name,
+            "amount" => $request->amount,
+            "description" => $request->description,
+            "name" => $request->name,
+        ]);
+
+
+        // Validating Nested Array Input
+        // $input = [
+        //     'channels' => [
+        //         [
+        //             'type' => '',
+        //             'address' => 'abigail@example.com',
+        //         ],
+        //         [
+        //             'type' => '',
+        //             'address' => 'https://example.com',
+        //         ],
+        //         [
+        //             'test' => [
+        //                 'type' => '',
+        //             ]
+        //         ],
+        //     ],
+        // ];
+        // $validator = Validator::make($input, [
+        //     'channels.*.type' => 'required',
+        // ]);
+        // $validator->validated();
+
+
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required',
+        // ]);
+        // $validator->validated();
+
+
+        // $input = [
+        //     'tests' => [
+        //         [
+        //             'id' => 1,
+        //             'name' => 'One',
+        //         ],
+        //         [
+        //             'id' => 4,
+        //             'name' => 'Two',
+        //         ],
+        //     ],
+        // ];
+        // $validator = Validator::make($input, [
+        //     'tests.*.id' => ['required', new ExistsID],
+        // ]);
+        // $validator->validated();
+
+
+        // $input = [
+        //     'tests' => [
+        //         [
+        //             'id' => 3,
+        //             'name' => 'Three Post Test',
+        //         ],
+        //         [
+        //             'id' => 4,
+        //             'name' => 'Three Post Test',
+        //         ],
+        //     ],
+        // ];
+        // $validator = Validator::make($input, [
+        //     'tests.*.id' => Rule::forEach(function ($value, $attribute) { // can't use in Request file
+        //         return [
+        //             'required',
+        //             Rule::exists(TestModel::class, 'id'),
+        //         ];
+        //     }),
+        // ]);
+        // $validator->validated();
+
     }
 }

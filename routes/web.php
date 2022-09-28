@@ -38,7 +38,7 @@ Route::controller(TestController::class)->group(function() {
     Route::get('/posts', 'index');
     Route::prefix('/post')->group(function() {
         Route::get('/create', 'create');
-        // Route::post('/store', 'store');
+        Route::post('/store', 'store')->name('post.store');
         // Route::get('//{id}/edit', 'edit');
         // Route::post('/update', 'update');
         // Route::delete('/delete/{id}', 'delete');

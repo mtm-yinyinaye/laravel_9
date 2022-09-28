@@ -16,19 +16,6 @@ class TestModel extends Model
 
     protected $table = 'tests';
 
-    // public function setNameAttribute($value)
-    // {
-    //     info($value);
-    //     $this->attributes['name'] = strtolower($value);
-    // }
-
-    // public function getNameAttribute($value)
-    // {
-    //     info($value);
-    //     return strtoupper($value);
-    // }
-
-
     public function name(): Attribute {
         return new Attribute(
             get: fn ($value) => strtoupper($value),
