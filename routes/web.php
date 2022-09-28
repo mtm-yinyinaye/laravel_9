@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\View\Components\HelloWorld;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,4 +43,11 @@ Route::controller(TestController::class)->group(function() {
         // Route::post('/update', 'update');
         // Route::delete('/delete/{id}', 'delete');
     });
+});
+
+
+Route::get('/component', function(){
+    // return view('hello');
+    return Blade::renderComponent(new HelloWorld('Julian Bashir'));
+
 });

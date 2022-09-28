@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('amount');
             $table->string('description')->fulltext();
-            // $table->text('description')->fulltext();
+            $table->boolean('active');
             $table->timestamps();
         });
     }
