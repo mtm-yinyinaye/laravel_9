@@ -11,7 +11,7 @@ class TestModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'amount', 'description'
+        'name', 'amount', 'description', 'active'
     ];
 
     protected $table = 'tests';

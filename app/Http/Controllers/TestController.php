@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\TestModel;
 use App\Rules\ExistsID;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +14,8 @@ class TestController extends Controller
 {
     public function index()
     {
-        $test = TestModel::whereFullText('description', 'Sample')->paginate(1);
+        // $test = TestModel::whereFullText('description', 'Sample')->paginate(1);
+        $test = TestModel::paginate(5);
         $selected = [
            ["id" => 1, "name" => "Yangon", "selected" => false],
            ["id" => 2, "name" => "Mandalay", "selected" => false],
@@ -33,7 +35,7 @@ class TestController extends Controller
     public function store(Request $request)
     {
 
-        // info($request);
+        info($request);
 
 
         $request->validate([
@@ -46,8 +48,21 @@ class TestController extends Controller
             "name" => $request->name,
             "amount" => $request->amount,
             "description" => $request->description,
-            "name" => $request->name,
+            "active" => $request->active ? 1 : 0,
         ]);
+
+        return to_route('posts'); // new helper
+
+
+
+        // $values = [
+        //     "name" => $request->name,
+        //     "amount" => $request->amount,
+        //     "description" => $request->description,
+        //     "active" => $request->active ? 1 : 0,
+        // ];
+        // DB::table('tests')->insert($values);
+        // return redirect()->route('posts');
 
 
         // Validating Nested Array Input

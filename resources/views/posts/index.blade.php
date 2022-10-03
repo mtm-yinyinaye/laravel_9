@@ -16,7 +16,7 @@
             @foreach($selectes as $selecte)
             <option 
                 value="{{ $selecte['id'] }}" 
-                @selected(([ true, old('select')]) == $selecte['selected'])
+                @selected(([ old('select')]) == $selecte['selected'])
             >
                 {{ $selecte['name'] }}
             </option>
