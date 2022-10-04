@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\GithubSocialiteController;
+use App\Http\Controllers\GoogleSocialiteController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +18,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/test', function () {
+    return "Login Success";
+});
+
+Route::controller(LoginController::class)->group(function() {
+    Route::get('/login', 'index');
+    Route::post('/login', 'login')->name('login');
+    Route::get('/testing/test', 'test');
+
+});
+
+Route::controller(GoogleSocialiteController::class)->group(function() {
+    Route::get('/auth/google', 'redirect'); // go to google sign in page
+    Route::get('/callback/google', 'handleCallback'); // retrieving user details
+});
+
+
+Route::controller(GithubSocialiteController::class)->group(function() {
+    Route::get('/auth/github', 'redirect'); // go to google sign in page
+    Route::get('/callback/github', 'handleCallback'); // retrieving user details
 });
